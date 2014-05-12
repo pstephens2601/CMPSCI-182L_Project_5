@@ -4,19 +4,21 @@
  * and open the template in the editor.
  */
 
-package cmpsci182.project.pkg5;
+package controllers;
 
 /**
  *
  * @author Owner
  */
-public class CMPSCI182Project5 {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        ProgramController programController = new ProgramController();
+        
     }
     
 }
