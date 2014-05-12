@@ -36,12 +36,7 @@ public class Canvas extends JPanel {
         
         Circle node = new Circle();
         
-        if (colWidth > 60) {
-            node.setRadius(30);
-        }
-        else {
-            node.setRadius((colWidth/2) - 10);
-        }
+        node.setRadius(findRadius(colWidth));
         
         node.setXPosition((xPosition) - (node.getRadius()));
         node.setYPosition(level * 120);
@@ -53,29 +48,54 @@ public class Canvas extends JPanel {
         int numberWidth = fontMetrics.stringWidth(number);
         int numberHeight = fontMetrics.getHeight();
         
-        g.setColor(Color.GRAY);
-        g.fillOval(node.getXPosition(), node.getYPosition(), node.getRadius() * 2, node.getRadius() * 2);
-        System.out.println("current number is " + number + " and the level is " + level);
-        System.out.println("xPosition is " + xPosition + "\n");
-        g.setColor(Color.WHITE);
-        g.drawOval(node.getXPosition(), node.getYPosition(), node.getRadius() * 2, node.getRadius() * 2);
-        g.drawString(
-                number,
-                node.getXPosition() + (node.getRadius() - (numberWidth/2)),
-                node.getYPosition() + (node.getRadius() + (numberHeight/2))
-        );
+        if (node.getRadius() > fontMetrics.stringWidth(number) - 5) {
+            g.setColor(new Color(65, 159, 221));
+            g.fillOval(node.getXPosition(), node.getYPosition(), node.getRadius() * 2, node.getRadius() * 2);
+
+            g.setColor(Color.WHITE);
+            g.drawOval(node.getXPosition(), node.getYPosition(), node.getRadius() * 2, node.getRadius() * 2);
+        }
+        
+            g.drawString(
+                    number,
+                    node.getXPosition() + (node.getRadius() - (numberWidth/2)),
+                    node.getYPosition() + (node.getRadius() + (numberHeight/2))
+            );
     }
     
     public void drawTree(Graphics2D g, Node root, int level, int xPosition, int colWidth) {
         
-        drawNode(g, (Int)root, level, xPosition, colWidth);
+        g.setColor(Color.WHITE);
         
         if (root.getLeft() != null) {
-            drawTree(g, root.getLeft(), level + 1, (xPosition - (colWidth/4)), colWidth/2);
+            drawLine(g, root, xPosition, xPosition - (colWidth/4),level, colWidth);
+            drawTree(g, root.getLeft(), level + 1, (xPosition - (colWidth/4)), colWidth/2); 
         }
         
         if (root.getRight() != null) {
+            drawLine(g, root, xPosition, xPosition + (colWidth/4),level, colWidth);
             drawTree(g, root.getRight(), level + 1, (xPosition + (colWidth/4)), colWidth/2);
+        }
+        
+        drawNode(g, (Int)root, level, xPosition, colWidth);
+    }
+    
+    private void drawLine(Graphics2D g, Node root, int xPosition, int childXPosition, int level, int colWidth) {
+        g.drawLine(xPosition, (level * 120) + findRadius(colWidth), childXPosition, ((level + 1) * 120) + (findRadius(colWidth/2) - 5));
+    }
+    
+    private int findRadius(int colWidth) {
+        if (colWidth > 90) {
+            return 30;
+        }
+        else {
+            int dynamicWidth = (colWidth/2) - 2;
+            if (dynamicWidth < 30) {
+                return dynamicWidth;
+            }
+            else {
+                return 30;
+            }
         }
     }
     
