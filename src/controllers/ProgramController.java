@@ -1,49 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*------------------------------------------------------------------------------
+Programmer: Patrick Stephens
+Development Date: 5/13/2014
+Project: CMPSCI 182L - Project #5 - Professor Ferguson
+Project Description: GUI program that graphically displays a inary tree.
+------------------------------------------------------------------------------*/
 
 package controllers;
 
 import views.*;
 import models.*;
-/**
- *
- * @author Owner
- */
+
 public class ProgramController {
     
     private Window programWindow;
     private IntTree tree;
     
     public ProgramController() { 
-        tree = new IntTree(50);
-        tree.insert(200);
-        tree.insert(90);
-        tree.insert(10);
-        tree.insert(20);
-        tree.insert(5);
-        tree.insert(2);
-        tree.insert(6);
-        tree.insert(15);
-        tree.insert(1);
-        tree.insert(80);
-        tree.insert(100);
-        tree.insert(70);
-        tree.insert(30);
-        tree.insert(75);
-        tree.insert(60);
-        tree.insert(35);
-        tree.insert(27);
-        tree.insert(25);
-        tree.insert(29);
-        tree.insert(31);
-        tree.insert(24);
-        tree.insert(26);
+        tree = new IntTree();
+        tree.insert(50); 
+        tree.insert(25); 
+        tree.insert(75); 
+        tree.insert(12); 
+        tree.insert(37); 
+        tree.insert(43); 
+        tree.insert(30); 
+        tree.insert(33); 
+        tree.insert(87); 
+        tree.insert(93); 
+        tree.insert(9); 
         
         programWindow = new Window(this);
         drawTree();
+        System.out.println(tree.toString());
+        
     }
     
     public IntTree getTree() {
@@ -52,5 +41,19 @@ public class ProgramController {
     
     public final void drawTree() {
         programWindow.drawTree();
+    }
+    
+    public void addNode(int value) {
+        tree.insert(value);
+        programWindow.repaint();
+    }
+    
+    public void clearTree() {
+        tree.setRoot(null);
+        programWindow.repaint();
+    }
+    
+    public void exitProgram() {
+        System.exit(1);
     }
 }
